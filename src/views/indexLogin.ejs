@@ -1,0 +1,62 @@
+<%- include('./partials/head.ejs') %>
+
+<!--criar controler e adicionar jquery em um footer-->
+<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="/static/scriptLogin.js"></script>
+<script type="module" src="jsdom.js"></script>
+<script type="module" src="jquery.js"></script>
+<div class="flex-container">
+  <div class="content-container">
+    <div class="form-container">
+      <!--action="http://localhost:8090/users" -->
+      <form method="post" action="http://localhost:8090/users" name="myForm">
+        <h1>
+          Login
+        </h1>
+        <br>
+        <br>
+        <span class="subtitle">NOME:</span>
+        <br>
+        <input type="text" id="firstName" name="firstName" value="aaa">
+        <br>
+        <span class="subtitle">SOBRENOME:</span>
+        <br>
+        <input type="text" id="lastName" name="lastName" value="">
+        <br>
+        <span class="subtitle">EMAIL:</span>
+        <br>
+        <input type="email" id="email" name="email" value="">
+        <br>
+        <span class="subtitle">SENHA:</span>
+        <br>
+        <input type="password" id="password" name="password" value="">
+        <br><br>
+        <input type="submit" class="submit-btn" value="Submit">
+        <script>
+          function getJson(){
+    let fn=document.getElementById("firstName").value;
+     let ln=document.getElementById("lastName").value;
+     let em=document.getElementById("email").value;
+     let pw=document.getElementById("password").value;
+    
+     let test = '{"firstName":'+fn+', "lastName": '+ln+', "email": '+em+', "password": '+pw+'}';
+     let MyJSON = JSON.parse(JSON.stringify(test));
+     $.ajax({
+  type: "POST",
+  url: "http://localhost:8090/users",
+  data: JSON.stringify(test),
+  contentType: "application/json",
+  success: function (result) {
+  console.log(result);
+  console.log(MyJSON);
+  console.log("SUCCESS!!!");
+  }});
+  console.log("teste: "+MyJSON);
+}
+</script>
+          
+      <input onclick="getJson()" value="    Salvar" class="submit-btn"></input>
+      </form>
+    </div>
+  </div>
+</div>
