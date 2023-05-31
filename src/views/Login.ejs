@@ -1,0 +1,101 @@
+<%- include('./partials/headLogin.ejs') %>
+
+<div class="flex-container">
+  <div class="content-container">
+    <div class="form-container">
+      <h1>
+        Login
+      </h1>
+      <form name="login" id="login">
+        <br>
+        <span class="title">EMAIL:</span>
+        <br>
+        <input type="email" id="email" name="email" value="">
+        <br>
+        <span class="title">SENHA:</span>
+        <br>
+        <input type="password" id="password" name="password" value="">
+        <br>
+        <input type="submit" class="submit-btn" id="submit-btn" value="Submit">
+      </form>
+      <div id="toaster" class="toaster-bar">
+        <span id="toaster-message">
+      </span>
+      <i class="toaster-icon" id="pass" color="black"></i>
+      </div>
+
+  <script>
+  function showToaster(message, color){
+    var toaster = document.getElementById("toaster");
+    var toasterMessage = document.getElementById('toaster-message');
+    var toasterIcon = document.querySelector(".toaster-icon");
+
+    toasterMessage.textContent = message;
+
+    switch (color) {
+      case 'success':
+        toaster.style.backgroundColor = '#96E7A7';
+        toasterIcon.className = 'toaster-icon fas fa-check-circle';
+      break;
+
+      case 'alert':
+        toaster.style.backgroundColor = '#E6E660';
+        toasterIcon.className = 'toaster-icon fas fa-exclamation-circle';
+      break;
+
+      case 'error':
+        toaster.style.backgroundColor = '#960000';
+        toasterIcon.className = 'toaster-icon fas fa-times-circle';
+      break;
+    
+      default:
+      toaster.style.backgroundColor = '#ffffffa4';    
+      break;
+    }
+    
+    toaster.classList.add('active');
+
+    setTimeout(()=>{
+      toaster.classList.remove('active');
+    }, 2000)
+  }
+
+  document.getElementById("login").addEventListener("submit", function (event){
+    event.preventDefault(); // Impede o comportamento padrão de envio do formulário
+        
+    const formData = {
+      email: document.getElementById("email").value,
+      password: document.getElementById("password").value
+    }
+
+    fetch('http://localhost:8090/login',{
+      method: 'POST',
+      headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(formData)
+    })
+    .then((response)=>{
+      return response.json()
+    })
+    .then(data => {
+      console.log(data);
+      if(data.hasOwnProperty('error')){
+        console.log(data.error);
+      }else{
+        showToaster('Bem Vindo!', 'success');
+      }
+
+      if (data.error == 'Credenciais Inválidas!'){
+        showToaster('Credenciais Inválidas!', 'alert')
+      }
+    })
+    .catch(error => {
+      console.error(error);
+    });
+  })
+</script>
+
+    </div>
+  </div>
+</div>

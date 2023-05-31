@@ -1,0 +1,237 @@
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../../../static/favicon.png" type="image/x-icon">
+
+    <title>Atom</title>
+<style>
+      html {
+  scroll-behavior: smooth;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@keyframes spawn {
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+
+@keyframes float {
+  0%{transform: translateY(0px);}
+  50%{transform: translateY(60px);}
+  95%{transform: translateY(0px);}
+  100%{transform: translateY(0px);}
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  height: 100%;
+
+  overflow-x: hidden;
+
+  /* code to make all text unselectable */
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+a {
+    color: #ddd;
+    text-decoration: none;
+}
+
+body{
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #1C1C1C; 
+    color: #ddd;
+}
+
+nav{
+    background-color: rgb(73, 28, 114);
+    position: absolute;
+    top: 0;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    height: 70px;
+    width: 100%;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: #ddd;
+    justify-content: space-between;
+    text-decoration: none;
+    padding: 5px 10px;
+
+    margin-bottom: 70px;
+}
+
+
+
+.logo{
+  display: flex;
+  font-weight: bold;
+  font-size: 24px;
+  margin-left: 5px;
+  align-items: center;
+  text-align: center;
+  vertical-align: auto;
+  animation: spawn 4s ease;
+}
+
+.navbar-nav {
+  font-weight: bold;
+  list-style: none;
+  display: flex;
+  margin-right: 10px;
+}
+
+.nav-item {
+  margin-left: 20px;
+}
+
+button:active {
+    transform: scale(0.95);
+  }
+
+.btn{
+  font-size: 15px;
+  font-weight: bold;
+  color: #ddd;
+  background-color: rgba(0, 0, 0, 0.384);
+  border-radius: 5px;
+  padding: 15px;
+  border: 1px solid #1C1C1C;
+  cursor: pointer;
+}
+
+.parallax{
+  margin-top: 70px;
+  background-image: url("https://rare-gallery.com/thumbnail/431541-galaxy-universe-pixel-art-pixels-digital-art-artwork.png");
+
+  /* Set a specific height */
+  min-height: 600px;
+
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  animation: spawn 2s ease-in-out;
+}
+
+#planet{
+  width: 400px;
+  position: absolute;
+  top:180px;
+  left: 100px;
+  animation: float 8s ease-in-out 1s infinite both;
+
+}
+
+.popBox{  
+  height: 400px;
+  width: 300px;
+  position: fixed;
+  right: -500px;
+  top: 15%;
+  transform: translateX(-30%);
+  background-color: #822f9b;
+  color: #ddd;
+  padding: 50px 20px;
+  transition: right 0.8s ease-in-out;
+  border-radius: 8px;
+  border: 1px solid white;
+  box-shadow: 4px 3px 4px #8a6dd4;
+}
+
+
+.popBox.active{
+  right: 0px;
+}
+
+.popBox form{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.popBox input{
+  height: 30px;
+  width: 98%;
+  border-radius: 5px;
+  border: 0px solid white;
+  margin: 10px 5px;
+  transition: spawn 2s;
+  padding-left: 5px;
+}
+
+#submit-btn {
+  margin-top: 5px;
+  padding: 10px 20px;
+  color: #ddd;
+  width: 100px;
+  background-color: #a859d6;
+  border-radius: 3px;
+  border: 0px;
+}
+
+.close-btn-div {
+  margin-top: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#close-btn {
+  width: 50px;
+  color: #ddd;
+  border-radius: 50%;
+  background-color: #1C1C1C;
+}
+
+
+#users-btn, #create-btn{
+  transition: 1s;
+  position: absolute;
+  right: 170px;
+  top: 550px;
+
+  font-size: 20px;
+
+  height: 70px;
+  width: 170px;
+  color: #ddd;
+  background-color: #a859d6;
+
+  border-radius: 10px;
+  border: 1px black;
+  cursor: pointer;
+}
+
+#create-btn {
+  top: 450px;
+}
+
+#users-btn:hover, #create-btn:hover{
+  transform: scale(1.05);
+
+  background-color: #822f9b;
+  cursor: pointer;
+  box-shadow: 4px 3px 4px #8a6dd4;
+}
+    </style>
+  </head>

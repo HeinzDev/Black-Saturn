@@ -1,54 +1,48 @@
 const { application } = require('express');
 const express = require('express');
+const jwt = require('jsonwebtoken');;
 const UserModel = require('../src/models/user.model');
-var jsdom = require('jsdom');
-var $ = require('jquery');
+const port = 8090;
 
 const app = express();
-
 app.use(express.json())
+
 
 app.set('view engine', 'ejs');
 app.set('views', 'src/views');
 
 app.use("/static", express.static('./static/'));
 
-//middleware
-// app.use((req, res, next)=>{
-//     console.log(`Request Type: ${req.method}`);
-//     console.log(`Content Type: ${req.headers["content-type"]}`);
-//     console.log(`Date: ${new Date()}`)
-//     next();
-// })
+ app.use((req, res, next)=>{
+     console.log(`Request Type: ${req.method}`);
+     console.log(`Content Type: ${req.headers["content-type"]}`);
+     console.log(`Date: ${new Date()}`)
+     next();
+ })
 
 
 app.get('/views/users', async (req, res)=>{
     const users = await UserModel.find({});
 
-    res.render("index", {users: users});
+    res.render("users", {users: users});
 
 });
-
-//bodyparser
 
 app.get('/login', async (req, res)=>{
     const users = await UserModel.find({});
 
-    res.render("indexLogin", {users: users});
+    res.render("Login", {users: users});
 
 });
 
 app.get('/', async (req, res)=>{
     const users = await UserModel.find({});
 
-    res.render("indexHome", {users: users});
+    res.render("Home", {users: users});
 
 });
 
 app.get('/users', async (req,res)=>{
-    
-    $.get('http://localhost:8090/login',)
-
     try {
         const users = await UserModel.find({});
 
@@ -56,7 +50,6 @@ app.get('/users', async (req,res)=>{
     } catch (error) {
         return res.status(500).send(error.message);
     }
-
 
 });
  
@@ -70,6 +63,25 @@ app.get("/users/:id", async (req, res) =>{
         return res.status(500).send(error.message);
     }
 });
+
+app.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+  
+    try {
+      const user = await UserModel.findOne({ email: email, password: password });
+  
+      if (!user) {
+        res.status(401).json({ error: 'Credenciais Inválidas!' });
+      } else {
+        const token = jwt.sign({ email: user.email }, 'chave-token');
+        res.json({ token });
+      }
+    } catch (error) {
+      console.error('Erro ao verificar credenciais!', error);
+      res.status(500).json({ error: error.message });
+    }
+  });
+  
 
 app.post('/users', async (req,res) =>{
     try{
@@ -105,6 +117,5 @@ try {
 
 })
 
-const port = 8090;
 
-app.listen(port , ()=>console.log(`Rodando pelo express na porta: ${port}!`));
+app.listen(process.env.PORT ||  port , ()=>console.log(`Rodando pelo express na porta: ${port}!`));

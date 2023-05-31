@@ -2,25 +2,18 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="/static/atom.png" type="image/x-icon">
-
+    <link rel="shortcut icon" href="../../../static/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>Usuários</title>
-  
     <style>
-      html {
+html {
   scroll-behavior: smooth;
-}
-
-* {
-  margin: auto;
-  padding: 0;
-  box-sizing: border-box;
 }
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   background: #121212; /* fallback for old browsers */
-  overflow-x: hidden;
+  overflow: hidden;
 
   height: 100%;
 
@@ -33,85 +26,72 @@ body {
   user-select: none;
 }
 
-/* Disables selector ring */
-body:not(.user-is-tabbing) button:focus,
-body:not(.user-is-tabbing) input:focus,
-body:not(.user-is-tabbing) select:focus,
-body:not(.user-is-tabbing) textarea:focus {
-  outline: none;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* ########################################################## */
-
-h1 {
-  color: white;
-
-  font-size: 35px;
-  font-weight: 800;
-  text-align: center;
-}
-
-h2{
-  color: #1d7d36;
+@keyframes spawn {
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
 }
 
 .flex-container {
   width: 100vw;
-
-  margin-top: 60px;
-
   display: flex;
   justify-content: center;
   align-items: center;
+
+  animation: spawn 1.5s ease;
 }
 
 .content-container {
-  width: 800px;
-  height: 650px;
-}
-
-.form-container {
   display: flex;
   justify-content: center;
   align-items: center;
 
-  width: 400px;
-  height: 50%;
-
-  margin-top: 5px;
-  padding-top: 20px;
+  width: 70%;
+  height: 90vh;
 
   border-radius: 12px;
-
-  display: flex;
-  justify-content: center;
   flex-direction: column;
 
-  background: #1f1f1f;
-  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.199);
+  background: #1f1f1f70;
+  box-shadow: 4px 3px 4px #c643e070;
+
+
+}
+
+h1 {
+  color: white;
+  font-size: 35px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 50px;
 }
 
 .title {
-  color: #43e06d;
-}
-
-.subtitle {
-  font-size: 11px;
-
-  color: rgba(177, 177, 177, 0.3);
+  font-weight: 20px;
+  color: #ffffffa4;
+  text-shadow: 1px 1px 2px #b529d1ad;
+  animation: spawn 5s ease;
 }
 
 input {
   border: none;
-  border-bottom: solid rgb(143, 143, 143) 1px;
-
-  margin-bottom: 30px;
+  border-bottom: solid #802f91ad 1px;
+  margin-bottom: 40px;
 
   background: none;
-  color: rgba(255, 255, 255, 0.555);
+  color: #ffffff86;
 
   height: 35px;
-  width: 300px;
+  width: 350px;
 }
 
 .submit-btn {
@@ -120,23 +100,56 @@ input {
   border: none;
   border-radius: 8px;
 
-  box-shadow: 2px 2px 7px #38d39f70;
+  box-shadow: 2px 2px 7px #b529d1ad;
 
-  background: #38d39f;
-  color: rgba(255, 255, 255, 0.8);
+  background: #2c2c2c;
+  color: #ffffffc7;
 
-  width: 100px;
+  height: 45px;
+  width: 120px;
 
   transition: all 1s;
-  text-align: center;
+  margin: 15px 120px;
 }
 
 .submit-btn:hover {
-  color: rgb(255, 255, 255);
-
+  color: #ddd;
+ background-color: #b529d1ad;
   box-shadow: none;
 }
 
 
-    </style>
+.toaster-bar{
+  position: fixed;
+  bottom: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #96E7A7;
+  box-shadow: 2px 2px 2px greenyellow;
+  color: #2C2C2C;
+  padding: 10px 20px;
+  transition: bottom 0.3s ease-in-out;
+  border-radius: 5px;
+  border-color: 2px greenyellow;
+}
+
+.toaster-bar.active {
+  bottom: 20px;
+}
+
+
+
+.toaster-icon {
+  padding-left: 15px;
+  display: none;
+}
+
+.toaster-bar.active .toaster-icon {
+  display: inline-block; /* Mostra o ícone quando o toaster está ativo */
+  padding-left: 5px;
+  margin-right: 8px; /* Adapte a margem conforme necessário */
+}
+
+
+</style>
   </head>

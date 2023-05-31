@@ -1,0 +1,101 @@
+<html lang="en">
+  <%- include('./partials/headHome.ejs') %>
+  <body>
+  <div class="LoginContainer">
+    <nav class="navbar">
+      <a href="/" class="logo">
+      <img src="https://cdn-icons-png.flaticon.com/512/8152/8152739.png" href="/" width="50px" color="black"></img>
+      <span id="logo-text">Black Saturn</span>
+      </a>
+    
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <button type="button" class="btn" onclick="redirect('register')">Cadastro</button>
+        <li class="nav-item">
+            <button type="button" class="btn" onclick="redirect('login')">login</button>
+      </ul>
+    </nav>
+  </div>
+
+  <section>
+    <div class="parallax">
+      <img src="https://cdn-icons-png.flaticon.com/512/8152/8152739.png" id="planet">
+      <button type="button" id="create-btn" onclick="popBox('open')">Criar usuários</button>
+      <button type="button" id="users-btn" onclick="redirect('users')">Acessar usuários</button>
+    </div>
+    <div class="popBox">
+      <form name="popBoxForm" id="popBoxForm">
+        <span class="title">NOME:</span>
+        <input type="text" id="name" name="name" value="">
+        <span class="title">EMAIL:</span>
+        <input type="email" id="email" name="email" value="">
+        <span class="title">SENHA:</span>
+        <input type="password" id="password" name="password" value="">
+        <input type="submit" id="submit-btn"></button>
+      </form>
+      <div class="close-btn-div">
+        <button type="button" class="btn" id="close-btn" onclick="popBox('close')">X</button>
+      </div>
+      
+    </div>
+  </section>
+
+<script>
+function redirect(page){
+  switch (page) {
+    case 'users':
+    window.location.href = "/views/users";
+      break;
+    
+    case 'login':
+    window.location.href = "/login";
+    break;
+
+    case 'register':
+    window.location.href = "/register";
+    break;
+    default:
+      break;
+  }
+}
+
+function popBox(action){
+  var popBox = document.querySelector(".popBox");
+
+  if(action=='open'){
+  popBox.classList.add('active');
+  } else if (action=='close'){
+    popBox.classList.remove('active');
+  }
+}
+
+document.getElementById("popBoxForm").addEventListener("submit", function(event){
+  event.preventDefault(); // Impede o comportamento padrão de envio do formulário
+        
+        const formData = {
+          email: document.getElementById("email").value,
+          password: document.getElementById("password").value
+        }
+    
+        fetch('http://localhost:8090/users',{
+          method: 'POST',
+          headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
+        })
+        .then((response)=>{
+          return response.json()
+        })
+        .then(data => {
+    //fazer o efeito de ok
+    console.log(data)
+  })
+  .catch((error)=>{
+    console.log(error);
+  })
+})
+</script>>
+
+</body>
+</html>
