@@ -9,19 +9,30 @@
       </a>
     
       <ul class="navbar-nav">
-        <li class="nav-item">
+
+          <li class="nav-item" id="profile-button">
+            <button type="button" class="btn" onclick="redirect('perfil')">
+              <i class="fa-solid fa-user"></i>
+              perfil</button>
+          </li>
+
+        <li class="nav-item" id="register-button">
           <button type="button" class="btn" onclick="redirect('register')">Cadastro</button>
-        <li class="nav-item">
+        </li>
+        <li class="nav-item" id="login-button">
             <button type="button" class="btn" onclick="redirect('login')">login</button>
+        </li>
+
       </ul>
     </nav>
   </div>
 
   <section>
     <div class="parallax">
+      <h1 id="welcome"></h1>
       <img src="https://cdn-icons-png.flaticon.com/512/8152/8152739.png" id="planet">
-      <button type="button" id="create-btn" onclick="popBox('open')">Criar usuários</button>
-      <button type="button" id="users-btn" onclick="redirect('users')">Acessar usuários</button>
+      <button type="button" class="crud-button" id="create-btn" onclick="popBox('open')">Criar usuários</button>
+      <button type="button" class="crud-button" id="users-btn" onclick="redirect('users')">Acessar usuários</button>
     </div>
     <div class="popBox">
       <form name="popBoxForm" id="popBoxForm">
@@ -36,11 +47,56 @@
       <div class="close-btn-div">
         <button type="button" class="btn" id="close-btn" onclick="popBox('close')">X</button>
       </div>
-      
+    </div>
+  </section>
+  <section>
+    <div>
+      <img src="../../static/Background/nebula-background.png" id="nebula-bg" alt="">
+      <img src="../../static/Background/nebula-foreground.png" id="nebula-fg" alt="">
+      <img src="../../static/Background/moon.png" id="moon" alt="">
     </div>
   </section>
 
 <script>
+  let loggedIn;
+  let isAdmin
+
+  window.addEventListener("DOMContentLoaded", () => {
+    fetch('/verificar-autenticacao')
+      .then( response => response.json())
+      .then(data => {
+        console.log(data);
+        usuario = data.name;
+        loggedIn = data.loggedIn;
+        isAdmin = data.isAdmin;
+        updateUI();
+      })
+      .catch(error => {
+        console.error('Erro ao verificar autenticação:', error);
+      });
+  })
+
+  function updateUI(){
+    const registerButton = document.getElementById('register-button');
+    const loginButton = document.getElementById('login-button');
+    const profileButton = document.getElementById('profile-button');
+    const welcome = document.getElementById("welcome");
+    welcome.innerText = `Bem vindo ${usuario}!`
+
+    if(loggedIn){
+      registerButton.style.display = 'none';
+      loginButton.style.display = 'none';
+      profileButton.style.display = 'block';
+
+      welcome.innerText = `Bem vindo ${usuario}!`
+    } else {
+      registerButton.style.display = 'block';
+      loginButton.style.display = 'block';
+      profileButton.style.display = 'none';
+      welcome.innerText = 'Bem vindo'
+    }
+  }
+
 function redirect(page){
   switch (page) {
     case 'users':
@@ -58,14 +114,23 @@ function redirect(page){
       break;
   }
 }
+function popBox(action) {
+  if (isAdmin) {
+    var popBox = document.querySelector(".popBox");
 
-function popBox(action){
-  var popBox = document.querySelector(".popBox");
+    if (action == 'open') {
+      popBox.classList.add('active');
+    } else if (action == 'close') {
+      popBox.classList.remove('active');
+    }
+  } else {
+    var crudButton = document.querySelector(".crud-button");
 
-  if(action=='open'){
-  popBox.classList.add('active');
-  } else if (action=='close'){
-    popBox.classList.remove('active');
+    crudButton.classList.add('active');
+
+    setTimeout(() => {
+      crudButton.classList.remove('active');
+    }, 2000);
   }
 }
 
@@ -73,9 +138,11 @@ document.getElementById("popBoxForm").addEventListener("submit", function(event)
   event.preventDefault(); // Impede o comportamento padrão de envio do formulário
         
         const formData = {
+          name: document.getElementById("name").value,
           email: document.getElementById("email").value,
           password: document.getElementById("password").value
         }
+        console.log(formData);
     
         fetch('http://localhost:8090/users',{
           method: 'POST',

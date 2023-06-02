@@ -24,6 +24,7 @@ body {
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none;
+  animation: spawn 1s ease;
 }
 
 * {
@@ -38,6 +39,15 @@ body {
   100% { opacity: 1; }
 }
 
+@keyframes spawn {
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+
 .back{
     position: absolute;
     top: 15px;
@@ -45,7 +55,7 @@ body {
     height: 80px;
     width: 80px;
     border-radius: 50%;
-    background-color: #1a1a1a6e;
+    background-color: #1818186e;
     color: #ddd;
     display: flex;
     justify-content: center;
@@ -54,6 +64,10 @@ body {
     border: none;
     font-size: 20px;
     box-shadow: 5px 3px 4px #e043c644;
+}
+.back:hover{
+  transition: 1s;
+  background-color: #2727276e;
 }
 
 

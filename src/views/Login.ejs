@@ -84,6 +84,11 @@
         console.log(data.error);
       }else{
         showToaster('Bem Vindo!', 'success');
+        if (data.loggedIn){
+          loggedIn = true;
+        }
+        
+        window.location.href = "/";
       }
 
       if (data.error == 'Credenciais Inválidas!'){
@@ -93,7 +98,7 @@
     .catch(error => {
       console.error(error);
     });
-    window.location.href = "/";
+    
   })
 </script>
 

@@ -1,0 +1,36 @@
+<html lang="en">
+  <%- include('./partials/headUsers.ejs') %>
+  <body>
+    <div>
+      <button class="back" onclick="home()">
+        <i class="fa-solid fa-arrow-left"></i>
+      </button>
+    </div>
+
+    <div class="flex-container">
+      <h1>
+        PERFIL
+      </h1>
+      <div class="content-container">
+        <% if (users.length > 0) { %> <% users.forEach(user => { %>
+        <div class="user-card">
+          <h3 class="title"><%= user.name %></h3>
+          <p class="email"><%= user.email %></p>
+          <% if (user.isAdmin){%>
+            <p class="isAdmin">Admin<p>
+          <% } %>
+        </div>
+        <% }) %> <% } else { %>
+          <p>Não há usuários para exibir...</p>
+        <% } %>
+      </div>
+    </div>
+
+
+    <script>
+      function home() {
+        window.location.href = '/';
+      }
+    </script>
+  </body>
+</html>

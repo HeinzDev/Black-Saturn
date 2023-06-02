@@ -2,6 +2,7 @@ const { application } = require('express');
 const express = require('express');
 const jwt = require('jsonwebtoken');;
 const UserModel = require('../src/models/user.model');
+const cookieParser = require('cookie-parser');
 const port = 8090;
 
 const app = express();
@@ -19,7 +20,40 @@ app.use("/static", express.static('./static/'));
      console.log(`Date: ${new Date()}`)
      next();
  })
+ app.use(cookieParser());
 
+const verifyToken = (req, res, next) => {
+    const token = req.cookies. token;
+
+    if(!token) {
+        return res.status(401).json({ error: 'Acesso não autorizado!' });
+    }
+
+    try{
+        const decoded = jwt.verify(token, 'chave-token');
+        req.user = decoded;
+        next();
+    }catch{
+        return res.status(401).json({error: 'Token inválido'});
+    }
+}
+
+app.get('/verificar-autenticacao', verifyToken, async (req, res) => {
+    try {
+      const userId = req.user.id;
+  
+      const user = await UserModel.findById(userId);
+  
+      if (!user) {
+        return res.status(401).json({ error: 'Usuário não encontrado' });
+      }
+  
+      res.json({ loggedIn: true, name: user.name, isAdmin: user.isAdmin });
+    } catch (error) {
+      console.error('Erro ao verificar autenticação:', error);
+      res.status(500).json({ error: error.message });
+    }
+  });
 
 app.get('/views/users', async (req, res)=>{
     const users = await UserModel.find({});
@@ -36,10 +70,8 @@ app.get('/login', async (req, res)=>{
 });
 
 app.get('/', async (req, res)=>{
-    const users = await UserModel.find({});
 
-    res.render("Home", {users: users});
-
+    res.render("Home");
 });
 
 app.get('/users', async (req,res)=>{
@@ -64,6 +96,17 @@ app.get("/users/:id", async (req, res) =>{
     }
 });
 
+app.get("/perfil", verifyToken ,async(req, res)=>{
+    try {
+        const id = req.user.id;
+        const user = await UserModel.findById(id);
+    
+        res.render("perfil", {user: user});
+    } catch (error) {
+        return res.status(500).send(error.message);
+    }
+})
+
 app.post('/login', async (req, res) => {
     const { email, password } = req.body;
   
@@ -73,8 +116,9 @@ app.post('/login', async (req, res) => {
       if (!user) {
         res.status(401).json({ error: 'Credenciais Inválidas!' });
       } else {
-        const token = jwt.sign({ email: user.email }, 'chave-token');
-        res.json({ token });
+        const token = jwt.sign({ id:user._id, email: user.email, admin: user.isAdmin }, 'chave-token');
+        res.cookie('token', token, { httpOnly: true })
+        res.json({ token, loggedIn: true });
       }
     } catch (error) {
       console.error('Erro ao verificar credenciais!', error);
