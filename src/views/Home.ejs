@@ -30,20 +30,27 @@
   <section>
     <div class="parallax">
       <h1 id="welcome"></h1>
-      <img src="https://cdn-icons-png.flaticon.com/512/8152/8152739.png" id="planet">
-      <button type="button" class="crud-button" id="create-btn" onclick="popBox('open')">Criar usuários</button>
-      <button type="button" class="crud-button" id="users-btn" onclick="redirect('users')">Acessar usuários</button>
+      <img src="https://cdn-icons-png.flaticon.com/512/1751/1751904.png" id="planet">
+
+      <div class="crud-button-div">
+        <button type="button" class="crud-button" id="create-btn" onclick="popBox('open')">Criar usuários</button>
+        <button type="button" class="crud-button" id="users-btn" onclick="redirect('users')">Acessar usuários</button>
+        <button type="button" class="crud-button" id="delete-btn" onclick="redirect('delete')">Apagar usuários</button>
+      </div>
     </div>
     <div class="popBox">
-      <form name="popBoxForm" id="popBoxForm">
-        <span class="title">NOME:</span>
-        <input type="text" id="name" name="name" value="">
-        <span class="title">EMAIL:</span>
-        <input type="email" id="email" name="email" value="">
-        <span class="title">SENHA:</span>
-        <input type="password" id="password" name="password" value="">
-        <input type="submit" id="submit-btn"></button>
-      </form>
+      <i class="fa-solid fa-circle-check" id="confirm-icon"></i>
+      <div class="form-container" id="form-container">
+        <form name="popBoxForm" id="popBoxForm">
+          <span class="title">NOME:</span>
+          <input type="text" id="name" name="name" value="">
+          <span class="title">EMAIL:</span>
+          <input type="email" id="email" name="email" value="">
+          <span class="title">SENHA:</span>
+          <input type="password" id="password" name="password" value="">
+          <input type="submit" id="submit-btn"></button>
+        </form>
+      </div>
       <div class="close-btn-div">
         <button type="button" class="btn" id="close-btn" onclick="popBox('close')">X</button>
       </div>
@@ -54,6 +61,7 @@
       <img src="../../static/Background/nebula-background.png" id="nebula-bg" alt="">
       <img src="../../static/Background/nebula-foreground.png" id="nebula-fg" alt="">
       <img src="../../static/Background/moon.png" id="moon" alt="">
+      <button type="button" class="element"> Acessar Posts!</button>
     </div>
   </section>
 
@@ -107,6 +115,10 @@ function redirect(page){
     window.location.href = "/login";
     break;
 
+    case 'delete':
+    window.location.href = "/delete"
+    break;
+
     case 'register':
     window.location.href = "/register";
     break;
@@ -114,6 +126,7 @@ function redirect(page){
       break;
   }
 }
+
 function popBox(action) {
   if (isAdmin) {
     var popBox = document.querySelector(".popBox");
@@ -155,13 +168,55 @@ document.getElementById("popBoxForm").addEventListener("submit", function(event)
           return response.json()
         })
         .then(data => {
-    //fazer o efeito de ok
+          const form = document.querySelector(".form-container");
+          const confirmIcon = document.getElementById("confirm-icon");
+          const closeButton = document.getElementById("close-btn");
+
+          closeButton.style.display = 'none';
+
+          form.classList.add('active')
+          setTimeout(()=>{
+            form.classList.remove('active')
+            confirmIcon.style.display = 'none';
+            closeButton.style.display = 'block';
+          },5000)
+
+          setTimeout(()=>{
+            confirmIcon.style.display = 'block';
+          },500)
+
+          setTimeout(()=>{popBox('close');},1000)
     console.log(data)
   })
   .catch((error)=>{
     console.log(error);
   })
 })
+
+function adjustOpacity() {
+  var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+  var element = document.querySelector('.element');
+  var nebula = document.getElementById("nebula-bg");
+
+  // Calcula a opacidade 
+  var opacityDown = scrollTop / 100;
+  var opacityUp = 1 - scrollTop / 100;
+
+
+  setTimeout(function() {
+    element.style.opacity = opacityDown;
+    nebula.style.opacity = opacityDown;
+  }, 200)
+}
+
+
+
+function handleScroll() {
+  adjustOpacity();
+}
+
+window.addEventListener('scroll', handleScroll);
 </script>>
 
 </body>

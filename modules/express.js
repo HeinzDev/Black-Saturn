@@ -74,6 +74,13 @@ app.get('/', async (req, res)=>{
     res.render("Home");
 });
 
+app.get('/delete', async (req,res)=>{
+    const users = await UserModel.find({});
+
+    res.render("Delete", {users: users});
+
+});
+
 app.get('/users', async (req,res)=>{
     try {
         const users = await UserModel.find({});
@@ -125,7 +132,7 @@ app.post('/login', async (req, res) => {
       res.status(500).json({ error: error.message });
     }
   });
-  
+
 
 app.post('/users', async (req,res) =>{
     try{

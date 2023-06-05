@@ -1,0 +1,158 @@
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="../../../static/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Usuários</title>
+    <style>
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  background-image: url("../../../static/Background/nebula-background.png");
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-size: cover;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  animation: spawn 1s ease;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@keyframes blinking {
+  0% { opacity: 1; }
+  40% { opacity: 0.6; }
+  100% { opacity: 1; }
+}
+
+@keyframes spawn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.back {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+  background-color: #181818;
+  color: #ddd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: none;
+  font-size: 20px;
+  box-shadow: 5px 3px 4px #e043c644;
+}
+
+.back:hover {
+  transition: 1s;
+  background-color: #2727276e;
+}
+
+.flex-container {
+  width: 100vw;
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+h1 {
+  color: white;
+  font-size: 48px;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px #00000050;
+}
+
+.content-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 20px;
+  max-width: 1200px;
+  width: 100%;
+  padding: 20px;
+}
+
+.user-card {
+  position: relative;
+  background-color: #181818;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 5px 5px 20px #00000080;
+  color: #ddd;
+  cursor: pointer;
+  transition: 0.3s;
+  overflow: hidden;
+  text-align: center;
+}
+
+.user-card:hover {
+  transform: scale(1.05);
+}
+
+.delete-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  z-index: 2;
+  color: #ddd;
+  font-size: 24px;
+}
+
+.user-card:hover .delete-icon {
+  visibility: visible;
+  opacity: 1;
+}
+
+.user-card.deleting {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.user-card.deleting h3,
+.user-card.deleting p {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.title,
+.email,
+.isAdmin {
+  transition: 0.3s;
+}
+
+.user-card:hover .title,
+.user-card:hover .email,
+.user-card:hover .isAdmin {
+  visibility: hidden;
+  opacity: 0;
+}
+
+
+</style>
+  </head>

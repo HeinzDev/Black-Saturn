@@ -1,0 +1,74 @@
+<html lang="en">
+  <%- include('./partials/headDelete.ejs') %>
+  <body>
+    <div>
+      <button class="back" onclick="home()">
+        <i class="fa-solid fa-arrow-left"></i>
+      </button>
+    </div>
+
+    <div class="flex-container">
+      <h1>
+        Users
+      </h1>
+      <div class="content-container">
+        <% if (users.length > 0) { %> <% users.forEach(user => { %>
+          <div class="user-card" data-user-id="<%= user._id %>">
+            <h3 class="title"><%= user.name %></h3>
+            <p class="email"><%= user.email %></p>
+            <% if (user.isAdmin){%>
+              <p class="isAdmin">Admin</p>
+            <% } %>
+            <i class="delete-icon fa-solid fa-trash-alt" onclick="deleteCard('<%= user._id %>')"></i>
+          </div>
+        <% }) %> <% } else { %>
+          <p>Não há usuários para exibir...</p>
+        <% } %>
+      </div>
+    </div>
+
+
+    <script>
+      function home() {
+        window.location.href = '/';
+      }
+
+      async function deleteCard(userId) {
+        try {
+          const response = await fetch(`/users/${userId}`, {
+            method: 'DELETE',
+          });
+
+          if (response.ok) {
+            const updatedUsersResponse = await fetch('/users');
+            const updatedUsers = await updatedUsersResponse.json();
+
+            const contentContainer = document.querySelector('.content-container');
+            contentContainer.innerHTML = '';
+
+            if (updatedUsers.length > 0) {
+              updatedUsers.forEach((user, index) => {
+                const card = `
+                  <div class="user-card" data-user-id="${user._id}">
+                    <h3 class="title">${user.name}</h3>
+                    <p class="email">${user.email}</p>
+                    ${user.isAdmin ? '<p class="isAdmin">Admin</p>' : ''}
+                    <i class="delete-icon fa-solid fa-trash-alt" onclick="deleteCard('${user._id}')"></i>
+                  </div>
+                `;
+                contentContainer.innerHTML += card;
+              });
+            } else {
+              const noUsersMessage = '<p>Não há usuários para exibir...</p>';
+              contentContainer.innerHTML = noUsersMessage;
+            }
+          } else {
+            console.error('Erro ao excluir usuário');
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    </script>
+  </body>
+</html>
