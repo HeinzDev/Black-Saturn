@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" href="../../../static/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>Usuários</title>
+    <title>Posts!</title>
     <style>
 html {
   scroll-behavior: smooth;
@@ -70,11 +70,12 @@ body {
 }
 
 .flex-container {
+  padding: 30px;
   width: 100vw;
   height: 90%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 }
 
@@ -85,16 +86,18 @@ h1 {
   text-shadow: 2px 2px 4px #00000050;
 }
 
-.content-container {
+.posts-container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(1, 1fr);
   grid-gap: 20px;
   max-width: 1200px;
   width: 100%;
   padding: 20px;
 }
 
-.user-card {
+.post-card {
+  display: flex;
+  flex-direction: column;
   position: relative;
   background-color: #181818;
   padding: 20px;
@@ -105,15 +108,44 @@ h1 {
   transition: 0.3s;
   overflow: hidden;
   text-align: center;
+  gap:15px;
+
+  min-height: 200px;
+  max-height: 600px;
 }
 
-.user-card:hover {
+.text-container{
+  display: flex;
+  justify-self: start;
+  min-height: 100px;
+  max-height: 500px;
+  padding: 10px;
+
+  background-color: #0000004d;
+  border: 2px solid #c643e070;
+  border-radius: 10px;
+  box-shadow: 3px 2px 3px #c643e070;
+}
+
+.title{
+  position: relative;
+  left: -35%;
+  color: #ce33a4;
+}
+
+.star{
+  position: absolute;
+  right: 5%;
+  bottom: 8%;
+}
+
+.post-card:hover {
   transform: scale(1.05);
 }
 
-.delete-icon {
+.star-icon {
   position: absolute;
-  top: 50%;
+  bottom: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   visibility: hidden;
@@ -124,16 +156,12 @@ h1 {
   font-size: 24px;
 }
 
-.user-card:hover .delete-icon {
+.post-card:hover .star-icon {
   visibility: visible;
   opacity: 1;
+  justify-content: center;
+  align-items: center;
 }
-
-.user-card.deleting {
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-}
-
 
 .title,
 .email,
@@ -141,12 +169,38 @@ h1 {
   transition: 0.3s;
 }
 
-.user-card:hover .title,
-.user-card:hover .email,
-.user-card:hover .isAdmin {
+
+.star i{
+  color: white;
+}
+
+.post-card:hover .title,
+.post-card:hover .text,
+.post-card:hover .star,
+.post-card:hover .text-container,
+.post-card:hover i{
   visibility: hidden;
   opacity: 0;
 }
+
+.create {
+  position: absolute;
+  bottom: 30px;
+  right: 30px;
+  height: 80px;
+  width: 80px;
+  border-radius: 50%;
+  background-color: #541142;
+  color: #ddd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: none;
+  font-size: 20px;
+  box-shadow: 5px 3px 4px #e043c644;
+}
+
 
 
 </style>

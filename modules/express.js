@@ -2,6 +2,7 @@ const { application } = require('express');
 const express = require('express');
 const jwt = require('jsonwebtoken');;
 const UserModel = require('../src/models/user.model');
+const PostModel = require('../src/models/post.model');
 const cookieParser = require('cookie-parser');
 const port = 8090;
 
@@ -55,7 +56,7 @@ app.get('/verificar-autenticacao', verifyToken, async (req, res) => {
     }
   });
 
-app.get('/views/users', async (req, res)=>{
+app.get('/view/users', async (req, res)=>{
     const users = await UserModel.find({});
 
     res.render("users", {users: users});
@@ -103,6 +104,37 @@ app.get("/users/:id", async (req, res) =>{
     }
 });
 
+app.get("/posts", async (req,res)=>{
+    try {
+        const posts = await PostModel.find({})
+
+        res.status(200).json(posts)
+    } catch (error) {
+        return res.status(500).send(error.message);
+    }
+})
+
+app.get("/posts/:id", async (req,res)=>{
+    try {
+        const id = req.params.id;
+        const post = await PostModel.findById(id);
+
+        return res.status(200).json(post); 
+    } catch (error) {
+        return res.status(500).send(error.message);
+    }
+})
+
+app.get('/view/posts', async (req, res)=>{
+    try {
+        const posts = await PostModel.find({})
+
+        res.render("posts",{posts:posts})
+    } catch (error) {
+        return res.status(500).send(error.message);
+    }
+});
+
 app.get("/perfil", verifyToken ,async(req, res)=>{
     try {
         const id = req.user.id;
@@ -145,6 +177,16 @@ app.post('/users', async (req,res) =>{
     }
 });
 
+app.post('/posts', async (req,res)=>{
+    try {
+        const post = await PostModel.create(req.body);
+
+        res.status(201).json(post);
+    } catch (error) {
+        return res.status(500).send(error.message);
+    }
+})
+
 app.patch('/users/:id', async (req, res) =>{
     try {
         const id = req.params.id;
@@ -168,5 +210,19 @@ try {
 
 })
 
+app.patch('/posts/:id', async (req, res) => {
+    try {
+      const id = req.params.id;
+      const post = await PostModel.findByIdAndUpdate(id, req.body, { new: true });
+
+      if (!post) {
+        return res.status(404).json({ error: 'Post not found' });
+      }
+  
+      res.status(200).json(post);
+    } catch (error) {
+      res.status(500).send(error.message);
+    }
+  });
 
 app.listen(process.env.PORT ||  port , ()=>console.log(`Rodando pelo express na porta: ${port}!`));

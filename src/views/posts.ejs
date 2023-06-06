@@ -1,0 +1,116 @@
+<html lang="en">
+  <%- include('./partials/headPosts.ejs') %>
+  <body>
+    <div>
+      <button class="back" onclick="home()">
+        <i class="fa-solid fa-arrow-left"></i>
+      </button>
+    </div>
+
+    <div class="flex-container">
+      <h1>
+        posts
+      </h1>
+      <div class="posts-container">
+        <% if (posts.length > 0) { %> <% posts.forEach(post => { %>
+          <div class="post-card" data-post-id="<%= post._id %>" >
+            <h3 class="title"><%= post.title %></h3>
+            <div class="text-container">
+              <p class="text"><%= post.text %></p>
+            </div>
+            <p class="star">
+              <i class="fa-solid fa-star"></i>
+              <%= post.star %>
+            </p>
+            <i class="star-icon fa-solid fa-star" style="font-size: 40px;color: rgb(255, 208, 0);" onclick="star('<%= post._id %>')"></i>
+          </div>
+        <% }) %> <% } else { %>
+          <p>Não há usuários para exibir...</p>
+        <% } %>
+      </div>
+    </div>
+
+
+    <div>
+      <button class="create" onclick="create()">
+        <i class="fa-solid fa-plus"></i>
+      </button>
+    </div>
+
+    <script>
+      
+      function home() {
+        window.location.href = '/';
+      }
+
+      async function star(postId) {
+  try {
+    const postElement = document.querySelector(`.post-card[data-post-id="${postId}"]`);
+    const starElement = postElement.querySelector('.star');
+
+    const currentStarCount = parseInt(starElement.textContent.trim());
+    const updatedStarCount = currentStarCount + 1;
+
+
+    starElement.innerHTML = `<i class="fa-solid fa-star"></i> ${updatedStarCount}`;
+
+
+    const response = await fetch(`/posts/${postId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ star: updatedStarCount }) // Envia o novo valor do atributo "star" no corpo da requisição
+    });
+
+    if (!response.ok) {
+      console.error('Erro ao atualizar o post');
+      starElement.innerHTML = `<i class="fa-solid fa-star"></i> ${currentStarCount}`;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+
+
+      async function deleteCard(postId) {
+        try {
+          const response = await fetch(`/posts/${postId}`, {
+            method: 'DELETE',
+          });
+
+          if (response.ok) {
+            const updatedpostsResponse = await fetch('/posts');
+            const updatedposts = await updatedpostsResponse.json();
+
+            const contentContainer = document.querySelector('.content-container');
+            contentContainer.innerHTML = '';
+
+            if (updatedposts.length > 0) {
+              updatedposts.forEach((user, index) => {
+                const card = `
+                  <div class="user-card" data-user-id="${user._id}">
+                    <h3 class="title">${post.title}</h3>
+                    <p class="text">${post.email}</p>
+                    <i class="delete-icon fa-solid fa-trash-alt" onclick="deleteCard('${user._id}')"></i>
+                  </div>
+                `;
+                contentContainer.innerHTML += card;
+              });
+            } else {
+              const nopostsMessage = '<p>Não há posts para exibir...</p>';
+              contentContainer.innerHTML = nopostsMessage;
+            }
+          } else {
+            console.error('Erro ao excluir usuário');
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+
+    </script>
+  </body>
+</html>

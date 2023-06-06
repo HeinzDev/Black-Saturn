@@ -56,13 +56,11 @@
       </div>
     </div>
   </section>
-  <section>
-    <div>
+  <section class="post-section">
       <img src="../../static/Background/nebula-background.png" id="nebula-bg" alt="">
       <img src="../../static/Background/nebula-foreground.png" id="nebula-fg" alt="">
       <img src="../../static/Background/moon.png" id="moon" alt="">
-      <button type="button" class="element"> Acessar Posts!</button>
-    </div>
+      <button type="button" class="element" onclick="redirect('posts')"> Acessar Posts!</button>
   </section>
 
 <script>
@@ -108,7 +106,7 @@
 function redirect(page){
   switch (page) {
     case 'users':
-    window.location.href = "/views/users";
+    window.location.href = "/view/users";
       break;
     
     case 'login':
@@ -121,6 +119,10 @@ function redirect(page){
 
     case 'register':
     window.location.href = "/register";
+    break;
+
+    case 'posts':
+    window.location.href = "/view/posts";
     break;
     default:
       break;
@@ -148,7 +150,7 @@ function popBox(action) {
 }
 
 document.getElementById("popBoxForm").addEventListener("submit", function(event){
-  event.preventDefault(); // Impede o comportamento padrão de envio do formulário
+  event.preventDefault();
         
         const formData = {
           name: document.getElementById("name").value,
@@ -198,6 +200,7 @@ function adjustOpacity() {
 
   var element = document.querySelector('.element');
   var nebula = document.getElementById("nebula-bg");
+  var navbar = document.querySelector('.navbar');
 
   // Calcula a opacidade 
   var opacityDown = scrollTop / 100;
@@ -207,6 +210,7 @@ function adjustOpacity() {
   setTimeout(function() {
     element.style.opacity = opacityDown;
     nebula.style.opacity = opacityDown;
+    navbar.style.opacity = opacityUp;
   }, 200)
 }
 

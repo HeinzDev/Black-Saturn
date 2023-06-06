@@ -32,6 +32,13 @@
   95%{transform: translateY(0px);}
   100%{transform: translateY(0px);}
 }
+@keyframes floatMin {
+  0%{transform: translateY(0px);}
+  50%{transform: translateY(30px);}
+  95%{transform: translateY(0px);}
+  100%{transform: translateY(0px);}
+}
+
 
 @keyframes blinking {
   0%{opacity: 20%;}
@@ -84,7 +91,7 @@ i {
 /* --Navbar  */
 nav{
     background-color: #541142;
-    position: absolute;
+    position: fixed;
     top: 0;
     display: flex;
     text-align: center;
@@ -143,11 +150,8 @@ button:active {
 .parallax{
   margin-top: 70px;
   background-image: url("https://rare-gallery.com/thumbnail/431541-galaxy-universe-pixel-art-pixels-digital-art-artwork.png");
-
-  /* Set a specific height */
   min-height: 650px;
 
-  /* Create the parallax scrolling effect */
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
@@ -263,7 +267,7 @@ button:active {
 }
 
 .crud-button{
-  transition: .5s;
+  transition: .3s;
 
   font-size: 20px;
 
@@ -273,7 +277,7 @@ button:active {
   background-color: #922174;
 
   border-radius: 10px;
-  border: 1px black;
+  border: 1px solid #64124e;
   cursor: pointer;
 
   animation: spawn 2s ease-out;
@@ -284,7 +288,7 @@ button:active {
 
   background-color: #822f9b;
   cursor: pointer;
-  box-shadow: 4px 3px 4px #8a6dd4;
+  box-shadow: 4px 3px 4px #581a5e;
 }
 
 .crud-button.active{
@@ -292,8 +296,12 @@ button:active {
   background-color: red;
 }
 
+.post-section{
+  position: relative;
+}
 
 #nebula-bg{
+  position: relative;
   width: 100%;
   height: 72%;
   animation: spawn 2s ease-out;
@@ -302,10 +310,10 @@ button:active {
 #nebula-fg{
   position: absolute;
   margin-top: 10px;
-  height: 69%;
+  height: 97%;
   width: 100%;
 
-  left: 0px;
+  left: -5px;
   z-index: 1;
   animation: blinking 5s ease infinite 3s both;
 }
@@ -319,19 +327,31 @@ button:active {
 
 .element {
   position: absolute;
-  top: 120%;
-  left: 40%;
+  top: 40%;
+  left: 43%;
 
   padding: 10px;
-  width: 220px;
-  height: 110px;
+  width: 280px;
+  height: 100px;
   background-color: rgb(114, 24, 99);
   border-radius: 20px;
+  border: none;
   opacity: 1;
-  transition: opacity .8s;
+  transition: .8s;
   z-index: 2;
   color: #ddd;
-  font-size: 20px;
+  font-size: 25px;
+}
+
+.element:hover{
+  transform: scale(1.05);
+  transition: .8s;
+  background-color: rgb(90, 18, 78);
+  font-size: 28px;
+  cursor: pointer;
+  box-shadow: 4px 3px 4px #581a5e;
+
+  animation: floatMin 7s infinite both ease-in-out;
 }
 
     </style>
