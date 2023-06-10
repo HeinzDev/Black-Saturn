@@ -201,6 +201,98 @@ h1 {
   box-shadow: 5px 3px 4px #e043c644;
 }
 
+.flex-form{
+  display: flex;
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+
+  visibility: hidden;
+}
+
+.flex-form.active{
+  visibility: visible;
+  animation: spawn .4s ease both;
+}
+
+.relative-form-container{
+  position: relative;
+  width: 45%;
+}
+
+.closeForm{
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  border-radius: 50%;
+  border: none;
+  background-color: #181818;
+  height: 50px;
+  width: 50px;
+  color: #ddd;
+
+  cursor: pointer;
+}
+
+.create-form{
+  margin: 30px 20px;
+
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 95%;
+  height: 50%;
+  color: #ddd;
+
+  gap: 15px;
+  background-color: #222222;
+  border: 2px solid #c643e070;
+  border-radius: 10px;
+}
+
+.create-form textarea{
+  padding: 5px;
+  background-color: #313131;
+  border: 2px solid #c643e070;
+  border-radius: 10px;
+  height: 50px;
+  resize: none;
+  color: #ddd;
+  font-size: 18px;
+
+}
+
+#post-content{
+  height: 200px;
+}
+
+#postButton {
+  width: 100px;
+  height: 60px;
+  background-color:  #c643e070;
+  border-radius: 10px;
+  border: none;
+  color: #ddd;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-size: medium;
+  font-weight: bold;
+  align-self: flex-end;
+
+  box-shadow: 2px 1px 2px #581a5e;
+  transition: 0.3s ;
+}
+
+#postButton:hover{
+  transform: scale(1.05);
+
+  background-color: #4d155e;
+  cursor: pointer;
+  box-shadow: 4px 3px 4px #581a5e;
+
+}
 
 
 </style>

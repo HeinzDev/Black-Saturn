@@ -32,19 +32,73 @@
 
 
     <div>
-      <button class="create" onclick="create()">
+      <button class="create" onclick="create('open')">
         <i class="fa-solid fa-plus"></i>
       </button>
     </div>
 
-    <script>
-      
-      function home() {
-        window.location.href = '/';
-      }
+    <div class="flex-form">
+      <div class="relative-form-container">
+        <button class="closeForm" onclick="create('close')">X</button>
+        <div class="create-form">
+          <h2>Title</h2>
+            <textarea name="" id="post-title"></textarea>
+            <h2>Post</h2>
+            <textarea name="" id="post-content"></textarea>
+            <button id="postButton" onclick="post()">Post!</button>
+        </div>
+      </div>
+    </div>
 
-      async function star(postId) {
-  try {
+<script>
+      
+  function home() {
+    window.location.href = '/';
+  } 
+
+  function create(action){
+    switch (action){
+      case 'open':
+      document.querySelector('.flex-form').classList.add('active')
+      break;
+
+      case 'close':
+      document.querySelector('.flex-form').classList.remove('active')
+    }
+
+
+    
+  }
+
+  async function post(){
+    var postTitle = document.getElementById('post-title');
+    var postContent = document.getElementById('post-content');
+    var postStar = 0;
+
+    let postData = {
+      name: postTitle,
+      text: postContent,
+      star: postStar
+    }
+
+    try {
+      var response = await fetch(`/posts/`,
+      {
+        method:"POST",
+        headers: {
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(postData)
+      })
+
+      document.querySelector('.flex-form').classList.remove('active')
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+
+  async function star(postId) {
+    try {
     const postElement = document.querySelector(`.post-card[data-post-id="${postId}"]`);
     const starElement = postElement.querySelector('.star');
 
@@ -71,8 +125,6 @@
     console.error(error);
   }
 }
-
-
 
       async function deleteCard(postId) {
         try {
